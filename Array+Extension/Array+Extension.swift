@@ -21,17 +21,21 @@ extension Array where Element: Equatable {
     }
     
     mutating func shuffle() {
-        for i in 0..<(count - 1) {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
-            swap(&self[i], &self[j])
+        if count < 2 { return }
+        for index in 0..<count - 1 {
+            let newIndex = Int(arc4random_uniform(UInt32(count - index))) + index
+            guard index != newIndex else { continue }
+            swap(&self[index], &self[newIndex])
         }
     }
     
     func shuffled() -> [Element] {
         var list = self
-        for i in 0..<(list.count - 1) {
-            let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
-            swap(&list[i], &list[j])
+        for index in 0..<list.count {
+            let newIndex = Int(arc4random_uniform(UInt32(list.count-index))) + index
+            if index != newIndex {
+                swap(&list[index], &list[newIndex])
+            }
         }
         return list
     }
